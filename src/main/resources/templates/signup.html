@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" 
-th:replace="base::Layout(~{::section})">
+ th:replace="base::Layout(~{::section})"> 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,26 @@ th:replace="base::Layout(~{::section})">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="my-card">
+
+                        <!-- <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+                            <p class="text-center" th:text="${session.message.content}"></p>
+                            <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+                        </div> -->
+                        <div th:if="${session.message}"
+                            th:classappend="${session.message.type}"
+                            class="alert" role="alert">
+
+                            <p class="text-center"
+                            th:text="${session.message.content}">
+                            </p>
+
+                        </div>
+
+
+
+
+
+
                         <div class="container text-center">
 
                             <img style="width: 70px;" src="" th:src="@{/img/register.png}" alt="image">
@@ -20,17 +41,18 @@ th:replace="base::Layout(~{::section})">
 
                         </div>
                         <h2 class="text-center"> Register Here!!</h2>
-                     <form action="" th:action="@{/do_register}" method="post">
+                     <form action="" th:action="@{/do_register}" method="post" th:object="${user}" >
                         <!-- Name field -->
                     
                         <div class="form-field">
 
                             
                     <label for="name_field">Name</label>
-                    <input type="text" class="form-control" id="name-field"
+                    <input name="name" type="text" class="form-control" id="name-field"
                     aria-describedby="nameHelp"
                     placeholder="Enter Your Name"
-                    required>
+                    required th:value="${user.name}">
+                    
                     </div>
 
                     <!-- Email field -->
@@ -39,10 +61,10 @@ th:replace="base::Layout(~{::section})">
 
                             
                     <label for="email_field">Email</label>
-                    <input type="email" class="form-control" id="email-field"
+                    <input name="email"  type="email" class="form-control" id="email-field"
                     aria-describedby="emailHelp"
                     placeholder="Enter Your Email"
-                    required>
+                    required th:value="${user.email}">
                     </div>
 
                     <!-- Password field -->
@@ -51,21 +73,28 @@ th:replace="base::Layout(~{::section})">
 
                             
                     <label for="password_field">Password</label>
-                    <input type="password" class="form-control" id="password-field"
+                    <input name="password" type="password" class="form-control" id="password-field"
                     aria-describedby="passwordHelp"
                     placeholder="Enter Your Password"
-                    required>
+                    required th:value="${user.password}">
                     </div>
 
                     <!-- About field -->
                     
                         <div class="form-field">
-                            <label for="password_field">About</label>
-                            <textarea placeholder="Enter something about yourself"  rows="4" class="form-control"></textarea>
+                            <label for="about">About</label>
+                            <textarea name="about" th:text="${user.about}" placeholder="Enter something about yourself"  rows="4" class="form-control"></textarea>
                             
                     
                     </div>
-                    <br>
+
+                    <div class="form-group form-check">
+                        <input type="checkbox" name="agreement" class="form-check-input" id="agreement">
+                        <label for="agreement">Accept T&C</label>
+                    </div>
+
+
+                    
                     
                     <div class="container text-center">
                         <button type="submit" class="btn bg-primary text-white">Submit</button>
