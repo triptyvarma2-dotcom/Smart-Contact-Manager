@@ -41,17 +41,22 @@
 
                         </div>
                         <h2 class="text-center"> Register Here!!</h2>
-                     <form action="" th:action="@{/do_register}" method="post" th:object="${user}" >
+                     <form novalidate action="" th:action="@{/do_register}" method="post" th:object="${user}" >
                         <!-- Name field -->
                     
                         <div class="form-field">
 
                             
                     <label for="name_field">Name</label>
-                    <input name="name" type="text" class="form-control" id="name-field"
+                    <input name="name" type="text" class="form-control" 
+                    th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}"
+                    id="name-field"
                     aria-describedby="nameHelp"
                     placeholder="Enter Your Name"
                     required th:value="${user.name}">
+                    <div class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}">
+                        
+                    </div>
                     
                     </div>
 
@@ -61,35 +66,101 @@
 
                             
                     <label for="email_field">Email</label>
-                    <input name="email"  type="email" class="form-control" id="email-field"
+                    <input name="email"  type="email" class="form-control" 
+                    th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}"
+                    id="email-field"
                     aria-describedby="emailHelp"
                     placeholder="Enter Your Email"
                     required th:value="${user.email}">
+                    <div class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}">
+                        
+                    </div>
                     </div>
 
                     <!-- Password field -->
                     
-                        <div class="form-field">
+                        <!-- <div class="form-field">
 
                             
                     <label for="password_field">Password</label>
-                    <input name="password" type="password" class="form-control" id="password-field"
+                    <input name="password" type="password" class="form-control"
+                    th:classappend="${#fields.hasErrors('password') ? 'is-invalid':''}"
+                    id="password-field"
                     aria-describedby="passwordHelp"
                     placeholder="Enter Your Password"
                     required th:value="${user.password}">
+                    <div class="invalid-feedback" th:each="e : ${#fields.errors('password')}" th:text="${e}">
+                        
                     </div>
+                    </div> -->
+
+
+                        <!-- Password field -->
+                        <div class="form-field">
+
+                            <label for="password-field">Password</label>
+
+                            <div style="position:relative;">
+
+                                <input name="password"
+                                    type="password"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('password')} ? 'is-invalid':''"
+                                    id="password-field"
+                                    aria-describedby="passwordHelp"
+                                    placeholder="Enter Your Password"
+                                    required
+                                    th:value="${user.password}"
+                                    style="padding-right:45px; background-image:none;">
+
+                                <button type="button"
+                                        aria-label="Show or hide password"
+                                        style="position:absolute; right:10px; top:19px; transform:translateY(-50%); border:0; background:transparent; color:#198754; cursor:pointer; padding:4px;"
+                                        onclick="
+                                            var p = document.getElementById('password-field');
+                                            var slash = document.getElementById('eyeSlash');
+                                            p.type = p.type === 'password' ? 'text' : 'password';
+                                            slash.style.display = p.type === 'text' ? 'block' : 'none';
+                                        ">
+
+                                    <svg width="22" height="22" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+
+                                        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <line id="eyeSlash" x1="3" y1="3" x2="21" y2="21"
+                                            style="display:none;"/>
+
+                                    </svg>
+                                </button>
+
+                                <div class="invalid-feedback"
+                                    th:each="e : ${#fields.errors('password')}"
+                                    th:text="${e}">
+                                </div>
+
+                            </div>
+                        </div>
+
 
                     <!-- About field -->
                     
                         <div class="form-field">
                             <label for="about">About</label>
-                            <textarea name="about" th:text="${user.about}" placeholder="Enter something about yourself"  rows="4" class="form-control"></textarea>
-                            
+                            <textarea name="about" th:text="${user.about}" placeholder="Enter something about yourself"  rows="4" class="form-control"
+                            th:classappend="${#fields.hasErrors('about') ? 'is-invalid':''}"
+                            ></textarea>
+                            <div class="invalid-feedback" th:each="e : ${#fields.errors('about')}" th:text="${e}">
+                        
+                    </div>
                     
                     </div>
 
                     <div class="form-group form-check">
-                        <input type="checkbox" name="agreement" class="form-check-input" id="agreement">
+                        <input type="checkbox" name="agreement" class="form-check-input"id="agreement">
+                  
                         <label for="agreement">Accept T&C</label>
                     </div>
 
@@ -112,6 +183,6 @@
             </div>
         </div>
     </section>
-   
+   <script th:src="@{/js/script.js}"></script>
 </body>
 </html>
